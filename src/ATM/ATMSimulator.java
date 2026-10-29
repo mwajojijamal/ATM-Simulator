@@ -5,12 +5,32 @@ public class ATMSimulator {
  public static void main(String[]args) {
 	 Scanner scanner = new Scanner(System.in);
 	 // you will start with initial balance of ksh:1,000
-	BankAccount account = new BankAccount(1000.00);
+	BankAccount account = new BankAccount(1000.00, "1234");
 	boolean running = true;
 	
 	 System.out.println("=====================================================");
 	 System.out.println(" Welcome to java virtual ATM");
 	 System.out.println("=====================================================");
+	 
+	 //authentication
+	 boolean authenticated = false;
+	 while(!authenticated && !account.isLocked()) {
+		 System.out.print("enter your four digit pin: ");
+		 String enteredpin = scanner.next();
+		 
+		 if(account.authenticate(enteredpin)) {
+			authenticated = true;
+			System.out.println("login successfull!");
+		 }
+	 }
+	 
+	 //exits if account becomes locked
+	 if(account.isLocked()) {
+		 System.out.println("session termminated. contact support to unlock account");
+		 scanner.close();
+		 return;
+	 }
+	
 	 
 	 while(running) {
 		 System.out.println("\nSelect an option:");
